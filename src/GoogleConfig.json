@@ -1,5 +1,5 @@
 {
     "CLIENT_ID": "872782932612-i11glp33hhvlmoonr6va1blkqjlht3b9.apps.googleusercontent.com",
     "API_KEY": "AIzaSyAx0za6dDEZivgw3mHVDE_4dohBm8VY4H0",
-    "SCOPES": "https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/calendar.readonly https://www.googleapis.com/auth/calendar.events https://www.googleapis.com/auth/calendar"
+    "SCOPES": "https://www.googleapis.com/auth/calendar.readonly https://www.googleapis.com/auth/calendar.events https://www.googleapis.com/auth/calendar https://www.googleapis.com/auth/userinfo.profile"
   }

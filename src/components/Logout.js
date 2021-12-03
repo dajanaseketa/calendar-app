@@ -4,13 +4,14 @@ import Button from '@mui/material/Button';
 function Logout() {
     const navigate = useNavigate();
 
-    /* const onSuccess = () => {
+    const logout = () => {
+        localStorage.removeItem('access_token')
         navigate('/login');
-    }; */
+    }; 
 
     return (
         <div className='logout'>
-            
+            <Button onClick={ logout } variant='outlined'>Logout</Button>
         </div>
     );
 }

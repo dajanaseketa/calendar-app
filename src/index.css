@@ -2,7 +2,8 @@
 
 /* base styles */
 * {
-  margin: 0;
+  margin-top: auto;
+  margin-bottom: auto;
   font-family: 'Quicksand';
   color: #333;
 }
@@ -45,6 +46,11 @@
   margin-left: auto;
 }
 
+/* Content Card styles */
+.list-header {
+  margin: 20px 0;
+}
+
 /* blog previews / list */
 .events-list {
   padding: 10px 16px;
@@ -68,7 +74,7 @@
   display: flex;
 }
 
-.list-header .add-event-icon {
+.list-header .delete-event-icon  {
   margin-left: auto;
   margin-top: auto;
   margin-bottom: auto;
@@ -78,6 +84,22 @@
   margin-left: auto;
   margin-top: auto;
   margin-bottom: auto;
+}
+
+/* Event Card */
+.event-preview  {
+  border-bottom: 1px solid #f2f2f2;
+  margin: 25px;
+}
+
+.list-header .add-event-icon  {
+  margin-left: auto;
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+.list-content  {
+  margin: 15px;
 }
 
 /* blog details page */
