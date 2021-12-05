@@ -75,7 +75,7 @@ const Create = () => {
           <MobileDatePicker
             className='date-picker'
             label='Event date'
-            inputFormat='dd.MM.yyyy'
+            inputFormat='DD.MM.yyyy'
             value={date}
             onChange={handleDateChange}
             renderInput={(params) => <TextField {...params} />}

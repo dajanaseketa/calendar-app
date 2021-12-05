@@ -1,5 +1,6 @@
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import { useEffect } from 'react';
+import * as moment from 'moment';
 
 const EventCard = ({ eventData }) => {
     const eventId = eventData.id;
@@ -13,8 +14,8 @@ const EventCard = ({ eventData }) => {
                 />
             </div>
             <div className='list-content'>
-                <h4>start: {eventData.start}</h4>
-                <h4>end: {eventData.end}</h4>
+                <h4>start: {moment(eventData.start).format('DD.MM.YYYY. HH:mm:ss')}</h4>
+                <h4>end: {moment(eventData.end).format('DD.MM.YYYY. HH:mm:ss')}</h4>
             </div>
         </div>
      );
