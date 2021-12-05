@@ -22,16 +22,20 @@ function Login() {
                     localStorage.setItem('access_token', res.access_token);
 
                     fetch(
-                        `https://www.googleapis.com/oauth2/v1/userinfo?key=${API_KEY}`,
+                        `https://www.googleapis.com/oauth2/v3/userinfo?key=${API_KEY}`,
                         {
                             headers: {
                                 Authorization: `Bearer ${localStorage.getItem("access_token")}`,
                             },
                     })
                     .then((res) => {
-                        console.log(res)
+                        return res.json();
+                    })
+                    .then((res) => {
+                        localStorage.setItem('user_given_name', res.given_name);
+                        localStorage.setItem('locale', res.locale);
+                        navigate('/');
                     });
-                    navigate('/');
                 }
             }
         )}
@@ -43,18 +47,6 @@ function Login() {
             navigate('/');
         }
    };
-
-   const setUserData = () => {
-    if (auth2.isSignedIn.get()) {
-        var profile = auth2.currentUser.get().getBasicProfile();
-        console.log('ID: ' + profile.getId());
-        console.log('Full Name: ' + profile.getName());
-        console.log('Given Name: ' + profile.getGivenName());
-        console.log('Family Name: ' + profile.getFamilyName());
-        console.log('Image URL: ' + profile.getImageUrl());
-        console.log('Email: ' + profile.getEmail());
-      }
-   }
 
     useEffect(() => {
         const script = document.createElement('script');
