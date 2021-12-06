@@ -8,7 +8,6 @@ function Login() {
     const CLIENT_ID = GoogleConfig.CLIENT_ID;
     const API_KEY = GoogleConfig.API_KEY;
     const SCOPES = GoogleConfig.SCOPES;
-    const auth2 = null;
 
     const handleClientLoad = () => {
         window.gapi.load('client:auth2', initClient);
@@ -33,7 +32,6 @@ function Login() {
                     })
                     .then((res) => {
                         localStorage.setItem('user_given_name', res.given_name);
-                        localStorage.setItem('locale', res.locale);
                         navigate('/');
                     });
                 }
@@ -60,7 +58,7 @@ function Login() {
     return (
         <div className='login-page'>
             <h1>Welcome to the MyCalendar App</h1>
-            <Button onClick={ handleClientLoad } variant='outlined'>Login with Google</Button>
+            <Button onClick={handleClientLoad} variant='outlined'>Login with Google</Button>
         </div>
     );
 }

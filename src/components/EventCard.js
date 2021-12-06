@@ -1,16 +1,15 @@
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
-import { useEffect } from 'react';
 import * as moment from 'moment';
 
-const EventCard = ({ eventData }) => {
-    const eventId = eventData.id;
+const EventCard = ({ onClick, eventData }) => {
     
     return ( 
         <div className='event-preview'>
             <div className='list-header'>
                 <h2>{eventData.title}</h2>
-                <DeleteOutlineIcon className='delete-event-icon' 
-                /* onClick={this.props.onDelete(eventData.id)} */
+                <DeleteOutlineIcon 
+                    className='delete-event-icon' 
+                    onClick={() => onClick(eventData.id)}
                 />
             </div>
             <div className='list-content'>

@@ -11,7 +11,7 @@ function Logout() {
 
     return (
         <div className='logout'>
-            <Button onClick={ logout } variant='outlined'>Logout</Button>
+            <Button onClick={logout} variant='outlined'>Logout</Button>
         </div>
     );
 }

@@ -1,5 +1,4 @@
-import DayCard from './DayCard';
-import WeekCard from './WeekCard';
+import GroupingCard from './GroupingCard';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import InputLabel from '@mui/material/InputLabel';
@@ -19,8 +18,6 @@ const ContentCard = () => {
 
     const handleTimerangeChange = (event) => {
         setSelectedTimerange(event.target.value);
-        /* console.log(event.target.value)
-        console.log(selectedTimerange) */
         setStartDate(moment().valueOf());
         setEndDate(moment(startDate).add(event.target.value, 'days'));
     };
@@ -37,14 +34,13 @@ const ContentCard = () => {
             if (res.status !== 401) {
                 return res.json();
             } else {
+                alert('User is not authorized.');
                 localStorage.removeItem("access_token");
                 navigate('/login');
             }
         })
         .then((data) => {
-            if (data?.items) {
-                setEvents(formatEvents(data.items));
-            }
+            setEvents(formatEvents(data.items));
         });
     };
 
@@ -54,7 +50,9 @@ const ContentCard = () => {
             title: item.summary,
             start: item.start.dateTime || item.start.date,
             end: item.end.dateTime || item.end.date,
-            groupByKey: (selectedTimerange === 1 || selectedTimerange === 7) ? moment(item.start.dateTime).format('DD.MM.YYYY') : moment(item.start.dateTime).isoWeek()
+            groupByKey: (selectedTimerange === 1 || selectedTimerange === 7) ? 
+                        moment(item.start.dateTime || item.start.date).format('DD.MM.YYYY') : 
+                        moment(item.end.dateTime || item.end.date).isoWeek()
         }));
     };
 
@@ -67,18 +65,9 @@ const ContentCard = () => {
 
     const renderGroupingCards = () => {
         const cardsToRender = [];
-        const groupEvents = groupBy('groupByKey');
-        const groupedEvents = groupEvents(events);
-            
-        console.log(groupedEvents)
+        const groupedEvents = groupBy('groupByKey')(events);
         for (const [key, value] of Object.entries(groupedEvents)) {
-            if (selectedTimerange === 1 || selectedTimerange === 7) {
-                console.log(selectedTimerange)
-                cardsToRender.push(<DayCard calendarEvents={value} date={key} key={key}/>);
-            } else {
-                console.log(selectedTimerange)
-                cardsToRender.push(<WeekCard calendarEvents={events} weekNumber={key} key={key}/>);
-            }
+            cardsToRender.push(<GroupingCard fetchEvents={fetchCalendarEvents} calendarEvents={value} date={key} selectedTimerange={selectedTimerange} key={key}/>);
         }
         return cardsToRender;
     }
@@ -90,7 +79,7 @@ const ContentCard = () => {
     return ( 
         <div className='content'>
             <div className='list-header'>
-                <h2>{moment(startDate).format('DD.MM.YYYY')} - {moment(endDate).format('DD.MM.YYYY')}</h2>
+                <h2>{moment(startDate).format('DD.MM.YYYY. HH:mm')} - {moment(endDate).format('DD.MM.YYYY. HH:mm')}</h2>
                 <div className='timerange-dropdown'>
                     <FormControl variant='standard'>
                         <InputLabel>Timerange</InputLabel>

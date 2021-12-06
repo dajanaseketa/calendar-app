@@ -17,16 +17,16 @@ const Create = () => {
   const API_KEY = GoogleConfig.API_KEY;
   const navigate = useNavigate();
 
-  const handleDateChange = (newValue) => {
-    setDate(newValue);
+  const handleDateChange = (newDate) => {
+    setDate(newDate);
   };
 
-  const handleStartTimeChange = (newValue) => {
-    setStartTime(newValue);
+  const handleStartTimeChange = (newTime) => {
+    setStartTime(newTime);
   };
 
-  const handleEndTimeChange = (newValue) => {
-    setEndTime(newValue);
+  const handleEndTimeChange = (newTime) => {
+    setEndTime(newTime);
   };
 
   const handleSubmit = (event) => {
@@ -47,56 +47,71 @@ const Create = () => {
           'end': { 'dateTime': endDateTime }
         })
       })
-      .then(() => {
-        navigate('/');
+      .then((res) => {
+        if (res.status === 401) {
+          alert('User is not authorized.');
+          localStorage.removeItem("access_token");
+          navigate('/login');
+        } else if (!res.ok){
+          throw Error('Invalid input data.')
+        } else {
+          navigate('/');
+        }
+      })
+      .catch(error => {
+        alert(error.message);
       })
   };
 
   const formatDateTime = (time) => {
     const extractedDate = moment(date).format('YYYY-MM-DD');
-    console.log(extractedDate)
     const extractedTime = moment(time).format('HH:mm:ss');
     return `${extractedDate}T${extractedTime}-00:00`;
+  }
+
+  const handleCancelClick = () => {
+    navigate('/');
   }
 
   return (
     <div className='create'>
         <h2>Add an Event</h2>
-      <form className='create-event-form' onSubmit={handleSubmit}>
-        <TextField 
-          type='text' 
-          variant='outlined'
-          label='Event title'
-          required 
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-        />
-        <LocalizationProvider dateAdapter={DateAdapter}>
-          <MobileDatePicker
-            className='date-picker'
-            label='Event date'
-            inputFormat='DD.MM.yyyy'
-            value={date}
-            onChange={handleDateChange}
-            renderInput={(params) => <TextField {...params} />}
+        <form className='create-event-form' onSubmit={handleSubmit}>
+          <TextField 
+            type='text' 
+            variant='outlined'
+            label='Event title'
+            required 
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
           />
-          <TimePicker
-            className='time-picker'
-            label='Start Time'
-            value={startTime}
-            onChange={handleStartTimeChange}
-            renderInput={(params) => <TextField {...params} />}
-          />
-          <TimePicker
-            className='time-picker'
-            label='End Time'
-            value={endTime}
-            onChange={handleEndTimeChange}
-            renderInput={(params) => <TextField {...params} />}
-          />
-        </LocalizationProvider>
-        <Button type='submit' className='add-event-button' variant='contained'>Add Event</Button>
-      </form>
+          <LocalizationProvider dateAdapter={DateAdapter}>
+            <MobileDatePicker
+              className='date-picker'
+              label='Event date'
+              inputFormat='DD.MM.yyyy'
+              value={date}
+              onChange={handleDateChange}
+              renderInput={(params) => <TextField {...params} />}
+            />
+            <TimePicker
+              className='time-picker'
+              label='Start Time'
+              value={startTime}
+              onChange={handleStartTimeChange}
+              renderInput={(params) => <TextField {...params} />}
+            />
+            <TimePicker
+              className='time-picker'
+              label='End Time'
+              value={endTime}
+              onChange={handleEndTimeChange}
+              renderInput={(params) => <TextField {...params} />}
+            />
+          </LocalizationProvider>
+          <Button type='submit' className='add-event-button' variant='contained'>Add Event</Button>
+          <Button variant='outlined' onClick={handleCancelClick}>Cancel</Button>
+        </form>
     </div>
   );
 }
